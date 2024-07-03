@@ -1,0 +1,31 @@
+<?php
+    $host = "localhost";
+    $user = "root";
+    $password = "";
+    $dbname = "bd_myclub"; //nombre de la base de datos 
+    $conn = mysqli_connect($host, $user, $password, $dbname);
+
+    // Verificación del usuario
+    $usuario = $_POST["usuario"];
+    $contrasena = $_POST["contraseña"];
+    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND contraseña = '$contrasena'";
+    $resultado = mysqli_query($conn, $sql); //realiza consulta
+    $filas = mysqli_fetch_assoc($resultado); //obtengo los resultados
+    if($filas) {
+        // Inicio de sesión y redirección
+        session_start();
+        $_SESSION["usuario"] = $usuario;
+        header("Location: page.html");
+    } else { 
+        echo "<script>
+        alert('Usuario o Contraseña Incorecta');
+        window.location = 'index.php';
+        </script>";
+          
+      }
+
+    // Cierre de la conexión
+  mysqli_close($conn);
+
+?>
+
